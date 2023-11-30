@@ -4,9 +4,10 @@ import datetime as dt
 import json
 import re
 from collections.abc import Callable, Iterator
-from os import walk
+from os import listdir, walk
 from os.path import exists, expanduser, expandvars, getsize, splitdrive, splitext
 from pathlib import Path, PurePath
+from shutil import rmtree
 from typing import Any
 from unicodedata import normalize
 
@@ -476,3 +477,12 @@ def str_title_case(s: str) -> str:
                 s = s[:pos] + exception.upper() + s[pos + word_length :]
 
     return s
+
+
+def remove_empty_directory(path: Path, test: bool) -> bool:
+    if not listdir(path):
+        if not test:
+            rmtree(path)
+        return True
+    else:
+        return False
