@@ -165,7 +165,6 @@ class Target:
             )
             or None
         )
-        self.metadata.language = path_data.get("language")
         self.metadata.group = path_data.get("release_group")
         self.metadata.container = file_path.suffix or None
         if "date" in path_data:
