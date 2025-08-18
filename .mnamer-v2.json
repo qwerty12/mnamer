@@ -23,7 +23,11 @@
         ".wmv",
         ".srt",
         ".idx",
-        ".sub"
+        ".sub",
+        ".sup",
+        ".ass",
+        ".vtt",
+        ".ttml"
     ],
     "movie_api": "tmdb",
     "movie_directory": "C:\\Films\\{name} ({date.year}) [tmdbid-{id_tmdb}]",

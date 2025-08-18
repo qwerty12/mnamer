@@ -57,7 +57,7 @@ DEPRECATED = {"no_replace", "replacements"}
 
 IS_DEBUG = gettrace() is not None
 
-SUBTITLE_CONTAINERS = [".srt", ".idx", ".sub"]
+SUBTITLE_CONTAINERS = [".srt", ".idx", ".sub", ".sup", ".ass", ".vtt", ".ttml"]
 
 
 SYSTEM = {
