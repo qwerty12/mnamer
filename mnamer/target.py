@@ -103,14 +103,19 @@ class Target:
             dir_head = Path(dir_head_)
         else:
             dir_head = self.source.parent
-        file_path = format(self.metadata, self._settings.formatting_for(self.metadata))
+        format_spec = self._settings.formatting_for(self.metadata)
+        if just_original := format_spec == "{original_filename}":
+            file_path = self.metadata.original_filename
+        else:
+            file_path = format(self.metadata, format_spec)
         dir_tail, filename = path.split(Path(file_path))
         filename = filename_replace(filename, self._settings.replace_after)
         if self._settings.scene:
             filename = str_scenify(filename)
         if self._settings.lower:
             filename = filename.lower()
-        filename = str_sanitize(filename)
+        if not just_original:
+            filename = str_sanitize(filename)
         directory = Path(dir_head, dir_tail)
         return Path(directory, filename)
 
