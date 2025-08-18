@@ -200,7 +200,7 @@ class Cli(Frontend):
                         + str(target.source.parent.absolute()),
                         MessageType.SUCCESS,
                     )
-                else:
+                elif self.settings.verbose:
                     tty.msg(
                         "skipped removal of non empty source directory "
                         + str(target.source.parent.absolute()),
