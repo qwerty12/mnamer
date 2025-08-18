@@ -122,7 +122,7 @@ class Target:
 
     def _parse(self, file_path: Path):
         path_data: dict[str, Any] = {"language": self._settings.language}
-        if is_subtitle(self.source):
+        if False and is_subtitle(self.source):
             try:
                 path_data["language"] = Language.parse(self.source.stem[-2:])
                 file_path = Path(self.source.parent, self.source.stem[:-2])
