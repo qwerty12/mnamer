@@ -35,6 +35,7 @@ class Target:
     _provider: Provider
     _has_moved: bool
     _has_renamed: bool
+    _just_original: bool
     _raw_metadata: dict[str, str]
     _parsed_metadata: Metadata
 
@@ -46,6 +47,7 @@ class Target:
         self._settings = settings or SettingStore()
         self._has_moved = False
         self._has_renamed = False
+        self._just_original = False
         self._parse(file_path)
         self._replace_before()
         self._override_metadata_ids()
@@ -103,18 +105,17 @@ class Target:
             dir_head = Path(dir_head_)
         else:
             dir_head = self.source.parent
-        format_spec = self._settings.formatting_for(self.metadata)
-        if just_original := format_spec == "{original_filename}":
+        if self._just_original:
             file_path = self.metadata.original_filename
         else:
-            file_path = format(self.metadata, format_spec)
+            file_path = format(self.metadata, self._settings.formatting_for(self.metadata))
         dir_tail, filename = path.split(Path(file_path))
         filename = filename_replace(filename, self._settings.replace_after)
         if self._settings.scene:
             filename = str_scenify(filename)
         if self._settings.lower:
             filename = filename.lower()
-        if not just_original:
+        if not self._just_original:
             filename = str_sanitize(filename)
         directory = Path(dir_head, dir_tail)
         return Path(directory, filename)
@@ -198,6 +199,7 @@ class Target:
             # year = path_data.get("year")
             # if year:
             #     self.metadata.series = f"{self.metadata.series} {year}"
+        self._just_original = self._settings.formatting_for(self.metadata) == "{original_filename}"
 
     def _override_metadata_ids(self):
         id_types = {"imdb", "tmdb", "tvdb", "tvmaze"}
